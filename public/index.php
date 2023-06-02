@@ -12,7 +12,6 @@ use Twig\Loader\FilesystemLoader;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
-
 // DB
 [
   'DB_HOST'     => $host,
