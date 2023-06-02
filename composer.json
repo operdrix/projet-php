@@ -1,0 +1,25 @@
+{
+  "name": "ld-web/su-2023-php-mvc",
+  "description": "PHP MVC for Sciences-U students",
+  "authors": [
+    {
+      "name": "Lucas Delobelle",
+      "email": "lucas@ld-web.net"
+    }
+  ],
+  "scripts": {
+    "start": "php -S localhost:8000 -t public/ public/index.php"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "config": {
+    "process-timeout": 0
+  },
+  "require": {
+    "symfony/dotenv": "^6.2",
+    "twig/twig": "^3.6"
+  }
+}
