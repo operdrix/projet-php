@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Initialisation de certaines choses
-use App\Controller\ContactController;
+use App\Controller\AddrestauController;
 use App\Controller\IndexController;
 use App\DependencyInjection\Container;
 use App\Routing\RouteNotFoundException;
@@ -56,11 +56,11 @@ $router->addRoute(
   'home'
 );
 $router->addRoute(
-  'contact_page',
-  '/contact',
+  'addrestau',
+  '/add',
   'GET',
-  ContactController::class,
-  'contact'
+  AddrestauController::class,
+  'addrestau'
 );
 
 try {
