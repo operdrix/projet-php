@@ -2,13 +2,14 @@
 
 namespace App\Routing;
 
+use Psr\Container\ContainerInterface;
 use ReflectionException;
 use ReflectionMethod;
 
 class Router
 {
   public function __construct(
-    private array $services
+    private ContainerInterface $container
   ) {
   }
 
@@ -85,10 +86,7 @@ class Router
     foreach ($methodParams as $methodParam) {
       $paramType = $methodParam->getType();
       $paramTypeName = $paramType->getName();
-
-      if (array_key_exists($paramTypeName, $this->services)) {
-        $params[] = $this->services[$paramTypeName];
-      }
+      $params[] = $this->container->get($paramTypeName);
     }
 
     return $params;

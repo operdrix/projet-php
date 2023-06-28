@@ -4,6 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Initialisation de certaines choses
 use App\Controller\ContactController;
 use App\Controller\IndexController;
+use App\DependencyInjection\Container;
 use App\Routing\RouteNotFoundException;
 use App\Routing\Router;
 use Symfony\Component\Dotenv\Dotenv;
@@ -40,11 +41,13 @@ $twig = new Environment($loader, [
   'cache' => __DIR__ . '/../var/twig/',
 ]);
 
+$serviceContainer = new Container();
+$serviceContainer
+  ->set(Environment::class, $twig)
+  ->set(PDO::class, $pdo);
+
 // Appeler un routeur pour lui transférer la requête
-$router = new Router([
-  Environment::class => $twig,
-  PDO::class => $pdo
-]);
+$router = new Router($serviceContainer);
 $router->addRoute(
   'homepage',
   '/',
