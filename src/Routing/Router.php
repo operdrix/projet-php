@@ -2,12 +2,13 @@
 
 namespace App\Routing;
 
-use Twig\Environment;
+use ReflectionException;
+use ReflectionMethod;
 
 class Router
 {
   public function __construct(
-    private Environment $twig
+    private array $services
   ) {
   }
 
@@ -54,10 +55,42 @@ class Router
       throw new RouteNotFoundException($requestUri, $httpMethod);
     }
 
-    $controller = $route['controller'];
+    $controllerClass = $route['controller'];
     $method = $route['method'];
 
-    $controllerInstance = new $controller($this->twig);
-    echo $controllerInstance->$method();
+    $constructorParams = $this->getMethodParams($controllerClass . '::__construct');
+    $controllerInstance = new $controllerClass(...$constructorParams);
+
+    $controllerParams = $this->getMethodParams($controllerClass . '::' . $method);
+    echo $controllerInstance->$method(...$controllerParams);
+  }
+
+  /**
+   * Get an array containing services instances guessed from method signature
+   *
+   * @param string $method Format : FQCN::method
+   * @return array The services to inject
+   */
+  private function getMethodParams(string $method): array
+  {
+    $params = [];
+
+    try {
+      $methodInfos = new ReflectionMethod($method);
+    } catch (ReflectionException $e) {
+      return [];
+    }
+    $methodParams = $methodInfos->getParameters();
+
+    foreach ($methodParams as $methodParam) {
+      $paramType = $methodParam->getType();
+      $paramTypeName = $paramType->getName();
+
+      if (array_key_exists($paramTypeName, $this->services)) {
+        $params[] = $this->services[$paramTypeName];
+      }
+    }
+
+    return $params;
   }
 }

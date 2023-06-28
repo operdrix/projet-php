@@ -1,7 +1,5 @@
 # Sciences-U - B3 IW - PHP MVC - 2023
 
-Projet par Olivier Perdrix et Maxime Hinderschiette
-
 ## Démarrage
 
 ### Composer

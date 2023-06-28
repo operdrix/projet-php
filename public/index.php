@@ -12,6 +12,7 @@ use Twig\Loader\FilesystemLoader;
 
 $dotenv = new Dotenv();
 $dotenv->loadEnv(__DIR__ . '/../.env');
+
 // DB
 [
   'DB_HOST'     => $host,
@@ -26,7 +27,7 @@ $dsn = "mysql:dbname=$dbname;host=$host:$port;charset=$charset";
 
 try {
   $pdo = new PDO($dsn, $user, $password);
-  //var_dump($pdo);
+  var_dump($pdo);
 } catch (PDOException $ex) {
   echo "Erreur lors de la connexion à la base de données : " . $ex->getMessage();
   exit;
@@ -40,7 +41,10 @@ $twig = new Environment($loader, [
 ]);
 
 // Appeler un routeur pour lui transférer la requête
-$router = new Router($twig);
+$router = new Router([
+  Environment::class => $twig,
+  PDO::class => $pdo
+]);
 $router->addRoute(
   'homepage',
   '/',
