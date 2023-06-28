@@ -58,7 +58,7 @@ $router->addRoute(
 $router->addRoute(
   'addrestau',
   '/add',
-  'GET',
+  'POST',
   AddrestauController::class,
   'addrestau'
 );
