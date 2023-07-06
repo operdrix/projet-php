@@ -2,8 +2,6 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // Initialisation de certaines choses
-use App\Controller\AddrestauController;
-use App\Controller\IndexController;
 use App\DependencyInjection\Container;
 use App\Routing\RouteNotFoundException;
 use App\Routing\Router;
@@ -49,20 +47,28 @@ $serviceContainer
 
 // Appeler un routeur pour lui transférer la requête
 $router = new Router($serviceContainer);
-$router->addRoute(
-  'homepage',
-  '/',
-  ['GET'],
-  IndexController::class,
-  'home'
-);
-$router->addRoute(
-  'addrestau',
-  '/add',
-  ['GET', 'POST'],
-  AddrestauController::class,
-  'addrestau'
-);
+$router->registerRoutes();
+// $router->addRoute(
+//   'getAllRestaurants',
+//   '/',
+//   ['GET'],
+//   IndexController::class,
+//   'getAllRestaurants'
+// );
+// $router->addRoute(
+//   'getOneRestaurant',
+//   '/{id}',
+//   ['GET'],
+//   IndexController::class,
+//   'getOneRestaurant'
+// );
+// $router->addRoute(
+//   'addrestau',
+//   '/add',
+//   ['GET', 'POST'],
+//   AddrestauController::class,
+//   'addrestau'
+// );
 
 try {
   $router->execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

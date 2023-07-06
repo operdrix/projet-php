@@ -9,7 +9,7 @@
     <div class="card-body">
       <h5 class="card-title">{{ restaurant.nom }}</h5>
       <p class="card-text">{{ restaurant.description }}</p>
-      <a href="#" class="btn btn-primary">Afficher</a> {{ restaurant.note|round(1) }} / 5
+      <a href="/{{ restaurant.id }}" class="btn btn-primary">Afficher</a> {{ restaurant.note|round(1) }} / 5
     </div>
   </div>        
 {% endfor %}

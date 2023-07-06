@@ -1,10 +1,10 @@
 {
-  "name": "ld-web/su-2023-php-mvc",
-  "description": "PHP MVC for Sciences-U students",
+  "name": "maxoliv/mon-meilleur-restaurant",
+  "description": "Site de notation de restaurants",
   "authors": [
     {
-      "name": "Lucas Delobelle",
-      "email": "lucas@ld-web.net"
+      "name": "Olivier Perdrix, Maxime Hindershiete",
+      "email": "operdrix@myges.fr"
     }
   ],
   "scripts": {
