@@ -41,6 +41,7 @@ $twig = new Environment($loader, [
   'cache' => __DIR__ . '/../var/twig/',
 ]);
 
+// Créer un conteneur de services
 $serviceContainer = new Container();
 $serviceContainer
   ->set(Environment::class, $twig)

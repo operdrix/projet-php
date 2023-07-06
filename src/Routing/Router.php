@@ -43,6 +43,7 @@ class Router
   }
 
   /**
+   * Execute the controller method corresponding to the request
    * @param string $requestUri
    * @param string $httpMethod
    * @return void

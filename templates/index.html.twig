@@ -1,1 +1,8 @@
-<h1>Hello Sciences-U</h1>
+{% include "partial/header.html.twig" %}
+
+<!-- Template liée au controller : src/Controller/IndexController.php -->
+<ul>
+    {% for restaurant in restaurants %}
+        <li>{{ restaurant.nom }}</li>
+    {% endfor %}
+</ul>
