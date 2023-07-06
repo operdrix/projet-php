@@ -51,14 +51,14 @@ $router = new Router($serviceContainer);
 $router->addRoute(
   'homepage',
   '/',
-  'GET',
+  ['GET'],
   IndexController::class,
   'home'
 );
 $router->addRoute(
   'addrestau',
   '/add',
-  'POST',
+  ['GET', 'POST'],
   AddrestauController::class,
   'addrestau'
 );

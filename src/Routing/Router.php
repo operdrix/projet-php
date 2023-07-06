@@ -18,7 +18,7 @@ class Router
   public function addRoute(
     string $name,
     string $url,
-    string $httpMethod,
+    array $httpMethod,
     string $controllerClass,
     string $controllerMethod
   ) {
@@ -34,7 +34,7 @@ class Router
   public function getRoute(string $uri, string $httpMethod): ?array
   {
     foreach ($this->routes as $route) {
-      if ($route['url'] === $uri && $route['http_method'] === $httpMethod) {
+      if ($route['url'] === $uri && in_array($httpMethod, $route['http_method'])) {
         return $route;
       }
     }
