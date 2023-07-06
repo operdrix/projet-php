@@ -14,7 +14,7 @@ class IndexController extends AbstractController
     $this->pdo = $pdo;
 
     // Récupère les données de la base de données
-    $req = "SELECT * FROM restaurant";
+    $req = "SELECT r.*, AVG(a.note) note FROM restaurant r LEFT JOIN avis a ON r.id = a.id_restaurant GROUP BY r.id;";
     $statement = $this->pdo->prepare($req);
     $statement->execute();
     $restaurants = $statement->fetchAll(PDO::FETCH_ASSOC);

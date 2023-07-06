@@ -1,8 +1,17 @@
 {% include "partial/header.html.twig" %}
 
 <!-- Template liée au controller : src/Controller/IndexController.php -->
-<ul>
-    {% for restaurant in restaurants %}
-        <li>{{ restaurant.nom }}</li>
-    {% endfor %}
-</ul>
+<div class="container text-center">
+  <div class="row">
+{% for restaurant in restaurants %}
+  <div class="card col" style="width: 18rem;">
+    <img src={{ restaurant.url_photo}} class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ restaurant.nom }}</h5>
+      <p class="card-text">{{ restaurant.description }}</p>
+      <a href="#" class="btn btn-primary">Afficher</a> {{ restaurant.note|round(1) }} / 5
+    </div>
+  </div>        
+{% endfor %}
+</div>
+</div>
