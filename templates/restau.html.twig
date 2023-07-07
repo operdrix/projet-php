@@ -2,4 +2,27 @@
 
 <!-- Template liée au controller : src/Controller/IndexController.php -->
 
-<h1>{{ restaurant.nom }}</h1>
+<div class="container  px-4 ">
+  <div class="row gx-5">
+    <div class="col p-3"><a href="/" class="btn btn-dark">Retour</a></div>
+  </div>
+  <div class="row gx-5">
+    <div class="col p-3">
+      <img src="{{ restaurant.url_photo }}" style="max-width: 600px;" alt="">
+    </div>
+    <div class="col p-3">
+      <h1>{{ restaurant.nom }}</h1>
+      <strong>Note : {{ restaurant.note | round(2) }}/5</strong>
+      <p>Description : {{ restaurant.description }}</p>
+      <p>Adresse : {{ restaurant.adresse }}</p>
+      <p>Téléphone : {{ restaurant.telephone }}</p>
+      <p>Email : {{ restaurant.email }}</p>
+      <p>Propriétaire : {{ restaurant.adresse }}</p>
+    </div>
+  </div>
+  <div class="row gx-5">
+    <div class="col p-3">
+      <h2>Avis</h2>
+    </div>
+  </div>
+</div>
