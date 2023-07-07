@@ -38,7 +38,7 @@
       {% if error %}
         <p class="error">Désolé, tu as déjà posté un avis ici...</p>
       {% endif %}
-      <form method="POST" action="/addnote">
+      <form method="POST" action="/addnote/{{ restaurant.id }}">
       <fieldset>
         <legend>Quelle note attribueriez-vous ?</legend>
 
@@ -82,7 +82,6 @@
 
         </textarea>
       </div>
-      <input type="hidden" value="" id="idRestau" name="idRestau" />
       <div>
         <input type="submit" value="Envoyer" />
       </div>
@@ -90,16 +89,3 @@
     </div>
   </div>
 </div>
-
-<script>
-
-function getLastPart(url) {
-  const parts = url.split('/');
-  return parts.at(-1);
-}
-
-const url1 = window.location.href;
-var idRestau = document.getElementById('idRestau');
-idRestau.value = getLastPart(url1);
-
-</script>

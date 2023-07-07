@@ -118,8 +118,8 @@ class RestaurantController extends AbstractController
     return $this->twig->render('addrestau.html.twig', $context);
   }
 
-  #[Route(path: "/addnote", name: 'addnote', httpMethod: 'POST')]
-  public function addnote(): string
+  #[Route(path: "/addnote/{id}", name: 'addnote', httpMethod: 'POST')]
+  public function addnote(int $id): string
   {
     //Context Twig
     $context['page'] = array(
@@ -134,12 +134,11 @@ class RestaurantController extends AbstractController
       $note = $_POST['note'] ?? '';
       $pseudo = $_POST['pseudo'] ?? '';
       $message = $_POST['message'] ?? '';
-      $idRestau = $_POST['idRestau'] ?? '';
 
       //Est-ce que le restaurant existe déjà ?
       $req = "SELECT COUNT(*) FROM avis WHERE pseudo = ? AND id_restaurant = ?";
       $statement = $this->pdo->prepare($req);
-      $statement->execute([$pseudo, $idRestau]);
+      $statement->execute([$pseudo, $id]);
       $count = $statement->fetchColumn(); //On récupère le nombre de restaurant ayant le nom.
 
       //Si il n'y a pas de restaurants qui portent le même nom...
@@ -148,14 +147,14 @@ class RestaurantController extends AbstractController
         $req = "INSERT INTO `avis` (`id`, `id_restaurant`, `avis`, `pseudo`, `note`, `date`) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP);";
         $statement = $this->pdo->prepare($req);
         //Envoi de la requête
-        $statement->execute(array(NULL, $idRestau, $message, $pseudo, $note ));
+        $statement->execute(array(NULL, $id, $message, $pseudo, $note));
       } else {
-        header('Location: /restau/' . $idRestau);
+        header('Location: /restau/' . $id);
         exit;
       }
     }
 
-    header('Location: /restau/' . $idRestau);
+    header('Location: /restau/' . $id);
     exit;
   }
 }
