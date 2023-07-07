@@ -6,7 +6,8 @@
 
     {% for restaurant in restaurants %}
     <div class="card col gx-5 p-3" style="width: 18rem; margin: 10px;">
-      <img src={{ restaurant.url_photo}} class="card-img-top" alt="...">
+<img src={{ restaurant.url_photo}} class="card-img-top img-fluid" alt="..." style="object-fit: cover; width: 400px; height: 300px;">
+
       <div class="card-body">
         <h5 class="card-title">{{ restaurant.nom }}</h5>
         <p class="card-text">{{ restaurant.description }}</p>
