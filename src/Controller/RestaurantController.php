@@ -5,7 +5,7 @@ namespace App\Controller;
 use PDO;
 use App\Routing\Attribute\Route;
 
-class IndexController extends AbstractController
+class RestaurantController extends AbstractController
 {
 
   #[Route(path: "/", name: "getAllRestaurants_page")]
@@ -28,10 +28,9 @@ class IndexController extends AbstractController
     return $this->twig->render('index.html.twig', $context);
   }
 
-  #[Route(path: "/{id}", name: 'getOneRestaurant', httpMethod: "GET")]
+  #[Route(path: "/restau/{id}", name: 'getOneRestaurant', httpMethod: "GET")]
   public function getOneRestaurant(int $id): string
   {
-
     // Récupère les données de la base de données
     $req = "SELECT r.*, AVG(a.note) note FROM restaurant r LEFT JOIN avis a ON r.id = a.id_restaurant WHERE r.id = :id GROUP BY r.id;";
     $statement = $this->pdo->prepare($req);

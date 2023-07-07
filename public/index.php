@@ -48,27 +48,6 @@ $serviceContainer
 // Appeler un routeur pour lui transférer la requête
 $router = new Router($serviceContainer);
 $router->registerRoutes();
-// $router->addRoute(
-//   'getAllRestaurants',
-//   '/',
-//   ['GET'],
-//   IndexController::class,
-//   'getAllRestaurants'
-// );
-// $router->addRoute(
-//   'getOneRestaurant',
-//   '/{id}',
-//   ['GET'],
-//   IndexController::class,
-//   'getOneRestaurant'
-// );
-// $router->addRoute(
-//   'addrestau',
-//   '/add',
-//   ['GET', 'POST'],
-//   AddrestauController::class,
-//   'addrestau'
-// );
 
 try {
   $router->execute($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
