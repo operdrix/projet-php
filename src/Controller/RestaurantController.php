@@ -37,6 +37,13 @@ class RestaurantController extends AbstractController
     $statement->execute(['id' => $id]);
     $restaurant = $statement->fetch(PDO::FETCH_ASSOC);
 
+    if (!$restaurant) {
+      $context['page'] = array(
+        'titre' => 'Page non trouvée',
+      );
+      return $this->twig->render('erreur404.html.twig', $context);
+    }
+
     // Contexte Twig
     $context['page'] = array(
       'titre' => 'Restaurant ' . $restaurant['nom'],
