@@ -44,9 +44,9 @@ class RestaurantController extends AbstractController
       return $this->twig->render('erreur404.html.twig', $context);
     }
     // Récupère les données de la base de données
-    $req = "SELECT * FROM `avis` WHERE `id_restaurant` = 11 ";
+    $req = "SELECT * FROM `avis` WHERE `id_restaurant` = ? ";
     $statement = $this->pdo->prepare($req);
-    $statement->execute();
+    $statement->execute(array($id));
     $context['avis'] = $statement;
 
     // Contexte Twig
