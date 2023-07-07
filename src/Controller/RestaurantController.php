@@ -37,12 +37,17 @@ class RestaurantController extends AbstractController
     $statement->execute(['id' => $id]);
     $restaurant = $statement->fetch(PDO::FETCH_ASSOC);
 
+    // Récupère les données de la base de données
+    $req = "SELECT * FROM `avis` WHERE `id_restaurant` = 11 ";
+    $statement = $this->pdo->prepare($req);
+    $statement->execute();
+    $context['avis'] = $statement;
+
     // Contexte Twig
     $context['page'] = array(
       'titre' => 'Restaurant ' . $restaurant['nom'],
     );
     $context['restaurant'] = $restaurant;
-
     // Rendu du template Twig
     return $this->twig->render('restau.html.twig', $context);
   }
@@ -87,7 +92,7 @@ class RestaurantController extends AbstractController
       //Est-ce que le restaurant existe déjà ?
       $req = "SELECT COUNT(*) FROM restaurant WHERE nom = ?";
       $statement = $this->pdo->prepare($req);
-      $statement->execute([$nom]);
+      $statement->execute(array($nom));
       $count = $statement->fetchColumn(); //On récupère le nombre de restaurant ayant le nom.
 
       //Si il n'y a pas de restaurants qui portent le même nom...
@@ -104,5 +109,45 @@ class RestaurantController extends AbstractController
     }
 
     return $this->twig->render('addrestau.html.twig', $context);
+  }
+
+  #[Route(path: "/addnote", name: 'addnote', httpMethod: 'POST')]
+  public function addnote(): string
+  {
+    //Context Twig
+    $context['page'] = array(
+      'titre' => 'Ajouter un restaurant',
+    );
+
+    /**
+     * Si le formulaire d'ajout de restaurant est rempli, alors on envoie les données en base.
+     */
+    if (!empty($_POST)) {
+
+      $note = $_POST['note'] ?? '';
+      $pseudo = $_POST['pseudo'] ?? '';
+      $message = $_POST['message'] ?? '';
+      $idRestau = $_POST['idRestau'] ?? '';
+
+      //Est-ce que le restaurant existe déjà ?
+      $req = "SELECT COUNT(*) FROM avis WHERE pseudo = ?";
+      $statement = $this->pdo->prepare($req);
+      $statement->execute([$pseudo]);
+      $count = $statement->fetchColumn(); //On récupère le nombre de restaurant ayant le nom.
+
+      //Si il n'y a pas de restaurants qui portent le même nom...
+      if ($count <= 0) {
+        //Préparation de la requête SQL pour insérer
+        $req = "INSERT INTO `avis` (`id`, `id_restaurant`, `avis`, `pseudo`, `note`, `date`) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP);";
+        $statement = $this->pdo->prepare($req);
+        //Envoi de la requête
+        $statement->execute(array(NULL, $idRestau, $message, $pseudo, $note ));
+      } else {
+        echo "Vous avez déjà posté un avis";
+      }
+    }
+
+    header('Location: /restau/' . $idRestau);
+    exit;
   }
 }
