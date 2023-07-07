@@ -154,12 +154,21 @@ class Router
           $routeAttribute = $attributes[0];
           /** @var Route */
           $routeInstance = $routeAttribute->newInstance();
+
+          // Extraction des paramètres de la méthode.
+          $methodParams = $method->getParameters();
+          $paramNames = [];
+          foreach ($methodParams as $param) {
+            $paramNames[] = $param->getName();
+          }
+
           $this->addRoute(
             $routeInstance->getName(),
             $routeInstance->getPath(),
             $routeInstance->getHttpMethod(),
             $fqcn,
-            $method->getName()
+            $method->getName(),
+            $paramNames // Ajouter les paramètres ici
           );
         }
       }

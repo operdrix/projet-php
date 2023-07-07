@@ -31,7 +31,6 @@ class RestaurantController extends AbstractController
   #[Route(path: "/restau/{id}", name: 'getOneRestaurant', httpMethod: "GET")]
   public function getOneRestaurant(int $id): string
   {
-    var_dump($id);
     // Récupère les données de la base de données
     $req = "SELECT r.*, AVG(a.note) note FROM restaurant r LEFT JOIN avis a ON r.id = a.id_restaurant WHERE r.id = :id GROUP BY r.id;";
     $statement = $this->pdo->prepare($req);
