@@ -25,21 +25,39 @@ class Router
     string $url,
     string $httpMethod,
     string $controllerClass,
-    string $controllerMethod
+    string $controllerMethod,
+    array $params = []
   ) {
     $this->routes[] = [
       'name' => $name,
       'url' => $url,
       'http_method' => $httpMethod,
       'controller' => $controllerClass,
-      'method' => $controllerMethod
+      'method' => $controllerMethod,
+      'params' => $params
     ];
   }
-
   public function getRoute(string $uri, string $httpMethod): ?array
   {
     foreach ($this->routes as $route) {
-      if ($route['url'] === $uri && $route['http_method'] === $httpMethod) {
+      $routeUrl = $route['url'];
+      $routeParams = $route['params'];
+
+      // Convertir les paramètres de la route en expressions régulières
+      $routeUrl = preg_replace('/{(\w+)}/', '(?<$1>[^/]+)', $routeUrl);
+      $routeUrl = str_replace('/', '\/', $routeUrl);
+
+      // Vérifier si l'URI correspond à la route
+      $pattern = "/^{$routeUrl}$/";
+      if (preg_match($pattern, $uri, $matches) && $route['http_method'] === $httpMethod) {
+        // Récupérer les valeurs des paramètres de la route
+        $params = [];
+        foreach ($routeParams as $param) {
+          $params[$param] = $matches[$param];
+        }
+
+        // Ajouter les paramètres à la route et la renvoyer
+        $route['params'] = $params;
         return $route;
       }
     }
@@ -55,6 +73,10 @@ class Router
    */
   public function execute(string $requestUri, string $httpMethod)
   {
+    $controllerClass = null;
+    $method = null;
+    $params = [];
+
     $route = $this->getRoute($requestUri, $httpMethod);
 
     if ($route === null) {
@@ -67,8 +89,8 @@ class Router
     $constructorParams = $this->getMethodParams($controllerClass . '::__construct');
     $controllerInstance = new $controllerClass(...$constructorParams);
 
-    $controllerParams = $this->getMethodParams($controllerClass . '::' . $method);
-    echo $controllerInstance->$method(...$controllerParams);
+    $params = $this->getMethodParams($controllerClass . '::' . $method, $route['params']);
+    echo $controllerInstance->$method(...$params);
   }
 
   /**
@@ -77,24 +99,31 @@ class Router
    * @param string $method Format : FQCN::method
    * @return array The services to inject
    */
-  private function getMethodParams(string $method): array
+  private function getMethodParams(string $method, array $params = []): array
   {
-    $params = [];
+    $methodParams = [];
 
     try {
       $methodInfos = new ReflectionMethod($method);
+      $methodParams = $methodInfos->getParameters();
     } catch (ReflectionException $e) {
-      return [];
+      // Gérer les erreurs de réflexion ici
     }
-    $methodParams = $methodInfos->getParameters();
 
+    $resolvedParams = [];
     foreach ($methodParams as $methodParam) {
       $paramType = $methodParam->getType();
       $paramTypeName = $paramType->getName();
-      $params[] = $this->container->get($paramTypeName);
+
+      // Vérifier si le paramètre existe dans les paramètres fournis
+      if (isset($params[$methodParam->getName()])) {
+        $resolvedParams[] = $params[$methodParam->getName()];
+      } else {
+        $resolvedParams[] = $this->container->get($paramTypeName);
+      }
     }
 
-    return $params;
+    return $resolvedParams;
   }
 
   public function registerRoutes(): void
