@@ -68,6 +68,12 @@ if (!$restaurant) {
 
 Aussi, nous avons utilisé dans certaines parties de notre code le package composer PHPStan qui est un utilitaire permettant d’analyser notre code PHP sans l’exécuter afin d’émettre différents conseils et optimisation pour notre code. Nous avons utilisé le niveau 6 d’exigence sur les fonctions les plus complexes (voir fichier de configuration phpstan.neon, présent à la racine du repository).
 
+Pour exécuter le test, entrer la commande suivante :
+
+```bash
+composer phpstan
+```
+
 https://phpstan.org/
 
 # Difficultés rencontrées
