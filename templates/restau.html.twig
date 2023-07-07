@@ -35,6 +35,9 @@
         {% endfor %}
       </section>
       <hr />
+      {% if error %}
+        <p class="error">Désolé, tu as déjà posté un avis ici...</p>
+      {% endif %}
       <form method="POST" action="/addnote">
       <fieldset>
         <legend>Quelle note attribueriez-vous ?</legend>
