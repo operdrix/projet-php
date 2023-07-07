@@ -36,6 +36,7 @@ class RestaurantController extends AbstractController
     $statement = $this->pdo->prepare($req);
     $statement->execute(['id' => $id]);
     $restaurant = $statement->fetch(PDO::FETCH_ASSOC);
+    $error = $_GET['error'] ?? '';
 
     if (!$restaurant) {
       $context['page'] = array(
@@ -136,9 +137,9 @@ class RestaurantController extends AbstractController
       $idRestau = $_POST['idRestau'] ?? '';
 
       //Est-ce que le restaurant existe déjà ?
-      $req = "SELECT COUNT(*) FROM avis WHERE pseudo = ?";
+      $req = "SELECT COUNT(*) FROM avis WHERE pseudo = ? AND id_restaurant = ?";
       $statement = $this->pdo->prepare($req);
-      $statement->execute([$pseudo]);
+      $statement->execute([$pseudo, $idRestau]);
       $count = $statement->fetchColumn(); //On récupère le nombre de restaurant ayant le nom.
 
       //Si il n'y a pas de restaurants qui portent le même nom...
@@ -149,7 +150,8 @@ class RestaurantController extends AbstractController
         //Envoi de la requête
         $statement->execute(array(NULL, $idRestau, $message, $pseudo, $note ));
       } else {
-        echo "Vous avez déjà posté un avis";
+        header('Location: /restau/' . $idRestau);
+        exit;
       }
     }
 
