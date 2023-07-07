@@ -31,6 +31,7 @@ composer start
 - Twig
 - PDO
 - MySql
+- PHPStan
 
 # Explications de notre projet
 
