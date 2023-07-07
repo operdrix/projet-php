@@ -8,7 +8,7 @@ use App\Routing\Attribute\Route;
 class IndexController extends AbstractController
 {
 
-  #[Route(path: "/", name: "getAllRestaurants_page", methods: ["GET"])]
+  #[Route(path: "/", name: "getAllRestaurants_page")]
   public function getAllRestaurants(): string
   {
 
@@ -28,7 +28,7 @@ class IndexController extends AbstractController
     return $this->twig->render('index.html.twig', $context);
   }
 
-  #[Route(path: "/{id}", name: 'getOneRestaurant', methods: ["GET"])]
+  #[Route(path: "/{id}", name: 'getOneRestaurant', httpMethod: "GET")]
   public function getOneRestaurant(int $id): string
   {
 
@@ -48,7 +48,21 @@ class IndexController extends AbstractController
     return $this->twig->render('restau.html.twig', $context);
   }
 
-  #[Route(path: "/add", name: 'addrestau', methods: ['GET', 'POST'])]
+  #[Route(path: "/ajoutRestau", name: "form_add")]
+  public function showFormAdd(): string
+  {
+
+
+    // Contexte Twig
+    $context['page'] = array(
+      'titre' => 'Liste des restaurants',
+    );
+    // Rendu du template Twig
+    return $this->twig->render('addrestau.html.twig', $context);
+  }
+
+
+  #[Route(path: "/add", name: 'addrestau', httpMethod: 'POST')]
   public function addrestau(): string
   {
 
