@@ -8,7 +8,8 @@
     }
   ],
   "scripts": {
-    "start": "php -S localhost:8000 -t public/ public/index.php"
+    "start": "php -S localhost:8000 -t public/ public/index.php",
+    "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon"
   },
   "autoload": {
     "psr-4": {
