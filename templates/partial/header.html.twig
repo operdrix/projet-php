@@ -20,11 +20,26 @@
 </head>
 
 <body>
-    <nav class="navbar bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-        <img src="https://media.discordapp.net/attachments/1124325497887801384/1126584561401348286/oliv2206_Culinary_Star_A_logo_for_a_restaurant_rating_website_i_54c5006b-8010-44f9-9563-eb434d1c9831.png" alt="Logo" width="100" height="100" class="d-inline-block align-text-top">
-        Les Meilleurs restaurants | {{ page.titre }}
-        </a>
-    </div>
+    <nav class="navbar bg-dark border-bottom border-bottom-dark navbar-expand-lg" data-bs-theme="dark">
+        <div class="container-fluid ">
+            <a class="navbar-brand" href="/">
+                <img src="https://media.discordapp.net/attachments/1124325497887801384/1126584561401348286/oliv2206_Culinary_Star_A_logo_for_a_restaurant_rating_website_i_54c5006b-8010-44f9-9563-eb434d1c9831.png"
+                    alt="Logo" width="70" height="70" class="d-inline-block align-text-top">
+                Les Meilleurs restaurants
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ajoutRestau">Ajouter un restaurant</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
